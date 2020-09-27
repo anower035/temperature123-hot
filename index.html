@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+        h3{
+            font-size:100px;
+        }
+        .lead{
+            font-size:50px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control"id="input-Name" placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-danger" id="submit-btn">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img src="https://openweathermap.org/img/wn/02d@4x.png" id="icon-type" alt="">
+            <h1 id="cityName" style="font-size: 50px;">Dhaka</h1>
+            <h3><span id="tempValue">38.06</span>&deg;C</h3>
+            <h1 class="lead" id="desTemp">Clouds</h1>
+        </div>
+    </div>
+
+    <script>
+    //     window.addEventListener("load", () => {
+    //         let lat;
+    //         let lon;
+            
+    //     if(navigator.geolocation){
+    //         navigator.geolocation.getCurrentPosition(position =>{
+    //             lon=position.coords.longitude;
+    //             lat=position.coords.latitude;
+
+    //             fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=7420283ef534e3543ec7f7024d6d06f5`)
+    //             .then(response =>res.json())
+    //             .then(data =>{
+    //                 console.log(data);
+    //             })
+    //         })
+    //     }
+        
+    // })
+        
+       
+        // }
+        // else{
+        //     notificationElement.style.display='block';
+        //     notificationElement.innerHTML=<p>Browser doesn't Support Geolocation</p>;
+        // }
+        // function setPosition(position) {
+        //     let latitude=position.coords.latitude;
+        //     let longitude=position.coords.longitude;
+        //     getweather(latitude,longitude);
+        // }
+        // function showError(error) {
+        //     notificationElement.style.display='block';
+        //     notificationElement.innerHTML=<p> ${error.message} </p>;
+        // }
+ 
+ 
+ 
+ 
+ 
+ 
+        const cityName=document.getElementById("cityName");
+        const temp=document.getElementById("tempValue");
+        const city=document.getElementById("input-Name");
+        const desTem=document.getElementById("desTemp");
+        const iconShow=document.getElementById("icon-type");
+
+        document.getElementById('submit-btn').addEventListener('click',function(){
+             
+             fetch('https://api.openweathermap.org/data/2.5/weather?q='+city.value+'&appid=7420283ef534e3543ec7f7024d6d06f5&units=metric')
+             .then(response => response.json())
+            .then(data =>{
+                const tempData=Math.ceil(data.main.temp);
+                const iconUrl=`https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`;
+                cityName.innerText=data.name+","+data.sys.country;
+                temp.innerText=`${tempData}`;
+                desTem.innerText=data.weather[0].main;
+                iconShow.setAttribute('src',iconUrl);
+
+                city.value=' ';
+                
+            })  
+
+            .catch(err => alert("Wrong city name!!!"))
+        })    
+    </script>
+
+</body>
+
+</html>
